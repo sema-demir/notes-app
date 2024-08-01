@@ -24,10 +24,9 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  position: relative;
   min-height: 100vh;
+  z-index: 999;
 }
 
 h1 {
