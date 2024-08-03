@@ -23,5 +23,6 @@ export function useLocaleStorage<T>(key: string, initialValue: T) {
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(value));
   }, [key, value]);
-  return [value, setValue];
+  //6. adım hookun kullanılması için stati ve değiştirme metodunu return et
+  return [value, setValue] as [T, typeof setValue];
 }

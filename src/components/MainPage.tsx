@@ -3,8 +3,12 @@ import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
 import NoteCard from "./Form/NoteCard";
+import { Tag } from "../types";
 
-const MainPage = () => {
+type MainProps = {
+  availableTags: Tag[];
+};
+const MainPage = ({ availableTags }: MainProps) => {
   return (
     <div className="container py-5">
       <Stack direction="horizontal" className="justify-content-between">

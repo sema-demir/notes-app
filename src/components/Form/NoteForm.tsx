@@ -1,11 +1,13 @@
 import React, { FormEvent, useRef, useState } from "react";
 import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import ReactSelect from "react-select";
+import { CreateNoteProps } from "./CreateNote";
+import { Tag } from "../../types";
 
-const NoteForm = () => {
+const NoteForm = ({ createTag, availableTags }: CreateNoteProps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const markDownRef = useRef<HTMLTextAreaElement>(null);
-  const [selectedTags, setSelectedTags] = useState();
+  const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,7 +25,21 @@ const NoteForm = () => {
           <Col>
             <Form.Group controlId="title">
               <Form.Label>Etiketler</Form.Label>
-              <ReactSelect className="shadow" />
+              <ReactSelect
+                value={selectedTags.map((tag) => ({
+                  label: tag.label,
+                  value: tag.id,
+                }))}
+                onChange={(note_tags) =>
+                  setSelectedTags(
+                    note_tags.map((tag) => ({
+                      label: tag.label,
+                      id: tag.value,
+                    }))
+                  )
+                }
+                className="shadow"
+              />
             </Form.Group>
           </Col>
         </Row>
