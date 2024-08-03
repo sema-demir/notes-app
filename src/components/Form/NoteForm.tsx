@@ -1,16 +1,23 @@
-import React from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import ReactSelect from "react-select";
 
 const NoteForm = () => {
+  const titleRef = useRef<HTMLInputElement>(null);
+  const markDownRef = useRef<HTMLTextAreaElement>(null);
+  const [selectedTags, setSelectedTags] = useState();
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Stack>
         <Row>
           <Col>
             <Form.Group controlId="title">
               <Form.Label>Başlık</Form.Label>
-              <Form.Control required className="shadow" />
+              <Form.Control ref={titleRef} required className="shadow" />
             </Form.Group>
           </Col>
           <Col>
@@ -22,7 +29,13 @@ const NoteForm = () => {
         </Row>
         <Form.Group controlId="markdown" className="my-4">
           <Form.Label>İçerik</Form.Label>
-          <Form.Control as={"textarea"} className="shadow" />
+          <Form.Control
+            as={"textarea"}
+            className="shadow"
+            ref={markDownRef}
+            required
+            style={{ minHeight: "300px" }}
+          />
         </Form.Group>
         <div className="d-flex justify-content-end gap-2">
           <Button type="submit">Kaydet</Button>
