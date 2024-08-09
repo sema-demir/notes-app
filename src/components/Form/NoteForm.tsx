@@ -7,7 +7,7 @@ import { Tag } from "../../types";
 const NoteForm = ({ createTag, availableTags }: CreateNoteProps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const markDownRef = useRef<HTMLTextAreaElement>(null);
-  const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,13 +26,13 @@ const NoteForm = ({ createTag, availableTags }: CreateNoteProps) => {
             <Form.Group controlId="title">
               <Form.Label>Etiketler</Form.Label>
               <ReactSelect
-                value={selectedTags.map((tag) => ({
+                value={selectedTags?.map((tag) => ({
                   label: tag.label,
                   value: tag.id,
                 }))}
                 onChange={(note_tags) =>
                   setSelectedTags(
-                    note_tags.map((tag) => ({
+                    note_tags?.map((tag) => ({
                       label: tag.label,
                       id: tag.value,
                     }))
