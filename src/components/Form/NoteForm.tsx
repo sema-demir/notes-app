@@ -4,13 +4,18 @@ import ReactSelect from "react-select";
 import { CreateNoteProps } from "./CreateNote";
 import { Tag } from "../../types";
 
-const NoteForm = ({ createTag, availableTags }: CreateNoteProps) => {
+const NoteForm = ({ createTag, availableTags, onSubmit }: CreateNoteProps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const markDownRef = useRef<HTMLTextAreaElement>(null);
   const [selectedTags, setSelectedTags] = useState<Tag[]>();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    onSubmit({
+      title: titleRef.current!.value,
+      markDownRef: markDownRef.current!.value,
+      //tags: setSelectedTags,
+    });
   };
   return (
     <Form onSubmit={handleSubmit}>
