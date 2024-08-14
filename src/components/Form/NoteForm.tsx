@@ -1,21 +1,25 @@
 import React, { FormEvent, useRef, useState } from "react";
 import { Button, Col, Form, Row, Stack } from "react-bootstrap";
-import ReactSelect from "react-select";
+import ReactSelect from "react-select/creatable";
 import { CreateNoteProps } from "./CreateNote";
 import { Tag } from "../../types";
+import { v4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const NoteForm = ({ createTag, availableTags, onSubmit }: CreateNoteProps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const markDownRef = useRef<HTMLTextAreaElement>(null);
-  const [selectedTags, setSelectedTags] = useState<Tag[]>();
+  const navigate = useNavigate();
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit({
       title: titleRef.current!.value,
-      markDownRef: markDownRef.current!.value,
-      //tags: setSelectedTags,
+      markdown: markDownRef.current!.value,
+      tags: selectedTags,
     });
+    //navigate(-1);
   };
   return (
     <Form onSubmit={handleSubmit}>
@@ -35,14 +39,16 @@ const NoteForm = ({ createTag, availableTags, onSubmit }: CreateNoteProps) => {
                   label: tag.label,
                   value: tag.id,
                 }))}
-                onChange={(note_tags) =>
-                  setSelectedTags(
-                    note_tags?.map((tag) => ({
-                      label: tag.label,
-                      id: tag.value,
-                    }))
-                  )
-                }
+                onCreateOption={(label) => {
+                  const newTag: Tag = { id: v4(), label };
+                  createTag(newTag);
+                  setSelectedTags([...selectedTags, newTag]);
+                }}
+                //daha önceden olusturulan tagları listele
+                options={availableTags?.map((item) => ({
+                  label: item.label,
+                  value: item.id,
+                }))}
                 className="shadow"
               />
             </Form.Group>
@@ -60,7 +66,11 @@ const NoteForm = ({ createTag, availableTags, onSubmit }: CreateNoteProps) => {
         </Form.Group>
         <div className="d-flex justify-content-end gap-2">
           <Button type="submit">Kaydet</Button>
-          <Button type="button" variant="secondary">
+          <Button
+            onClick={() => navigate(-1)}
+            type="button"
+            variant="secondary"
+          >
             İptal
           </Button>
         </div>

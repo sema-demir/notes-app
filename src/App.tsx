@@ -15,7 +15,7 @@ function App() {
           ...data,
           id: uuidv4(),
           //elemanın etiketlerini dön ve diziye aktar
-          //tagIds: tags.map((tag) => tag.id),
+          tagIds: tags.map((tag) => tag.id),
         },
       ];
     });
