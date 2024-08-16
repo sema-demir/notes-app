@@ -3,12 +3,14 @@ import { Button, Col, Form, Row, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ReactSelect from "react-select";
 import NoteCard from "./Form/NoteCard";
-import { Tag } from "../types";
+import { Note, Tag } from "../types";
 
 type MainProps = {
+  notes: Note[];
   availableTags: Tag[];
 };
-const MainPage = ({ availableTags }: MainProps) => {
+const MainPage = ({ availableTags, notes }: MainProps) => {
+  console.log(notes);
   return (
     <div className="container py-5">
       <Stack direction="horizontal" className="justify-content-between">
@@ -38,15 +40,11 @@ const MainPage = ({ availableTags }: MainProps) => {
       </Form>
       {/* Notes */}
       <Row xs={1} sm={2} lg={3} xl={4} className="g-3 mt-4">
-        <Col>
-          <NoteCard />
-        </Col>
-        <Col>
-          <NoteCard />
-        </Col>
-        <Col>
-          <NoteCard />
-        </Col>
+        {notes.map((note) => (
+          <Col key={note.id}>
+            <NoteCard note={note} />
+          </Col>
+        ))}
       </Row>
     </div>
   );

@@ -19,7 +19,7 @@ const NoteForm = ({ createTag, availableTags, onSubmit }: CreateNoteProps) => {
       markdown: markDownRef.current!.value,
       tags: selectedTags,
     });
-    //navigate(-1);
+    navigate(-1);
   };
   return (
     <Form onSubmit={handleSubmit}>
@@ -35,13 +35,17 @@ const NoteForm = ({ createTag, availableTags, onSubmit }: CreateNoteProps) => {
             <Form.Group controlId="title">
               <Form.Label>Etiketler</Form.Label>
               <ReactSelect
-                value={selectedTags?.map((tag) => ({
+                value={selectedTags.map((tag) => ({
                   label: tag.label,
                   value: tag.id,
                 }))}
+                //yeni etiket oluşturuldugunda locale kaydet
                 onCreateOption={(label) => {
+                  //yeni obje tanımla
                   const newTag: Tag = { id: v4(), label };
+                  //locale kaydet
                   createTag(newTag);
+                  //state i günclle
                   setSelectedTags([...selectedTags, newTag]);
                 }}
                 //daha önceden olusturulan tagları listele
