@@ -6,11 +6,17 @@ import { Tag } from "../../types";
 import { v4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 
-const NoteForm = ({ createTag, availableTags, onSubmit }: CreateNoteProps) => {
+const NoteForm = ({
+  createTag,
+  availableTags,
+  onSubmit,
+  tags = [],
+  title = "",
+}: CreateNoteProps) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const markDownRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,6 +27,7 @@ const NoteForm = ({ createTag, availableTags, onSubmit }: CreateNoteProps) => {
     });
     navigate(-1);
   };
+  console.log(selectedTags);
   return (
     <Form onSubmit={handleSubmit}>
       <Stack>
@@ -39,6 +46,14 @@ const NoteForm = ({ createTag, availableTags, onSubmit }: CreateNoteProps) => {
                   label: tag.label,
                   value: tag.id,
                 }))}
+                onChange={(note_tags) =>
+                  setSelectedTags(
+                    note_tags.map((tag) => ({
+                      label: tag.label,
+                      id: tag.value,
+                    }))
+                  )
+                }
                 //yeni etiket oluşturuldugunda locale kaydet
                 onCreateOption={(label) => {
                   //yeni obje tanımla
@@ -53,6 +68,7 @@ const NoteForm = ({ createTag, availableTags, onSubmit }: CreateNoteProps) => {
                   label: item.label,
                   value: item.id,
                 }))}
+                isMulti
                 className="shadow"
               />
             </Form.Group>

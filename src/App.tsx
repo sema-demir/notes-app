@@ -5,9 +5,15 @@ import { NoteData, RawNote, Tag } from "./types";
 import { useLocaleStorage } from "./useLocaleStorage";
 import { v4 as uuidv4 } from "uuid";
 import Layout from "./components/Layout";
+import NoteDetail from "./components/NoteDetail";
+import { useMemo } from "react";
 function App() {
   const [notes, setNotes] = useLocaleStorage<RawNote[]>("notes", []);
   const [tags, setTags] = useLocaleStorage<Tag[]>("tags", []);
+
+  // useMemo(() =>notes.map((note) => ({
+
+  // })), [notes,tags ] )
   const addNote = ({ tags, ...data }: NoteData) => {
     setNotes((prev) => {
       return [
@@ -42,7 +48,9 @@ function App() {
             />
           }
         />
-        <Route path="/:id" element={<Layout />}></Route>
+        <Route path="/:id" element={<Layout notes={notes} />}>
+          <Route index element={<NoteDetail />} />
+        </Route>
         <Route path="*" element={<Navigate to={"/"} />} />
       </Routes>
     </BrowserRouter>
